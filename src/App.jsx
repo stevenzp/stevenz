@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import ExperienceCard from './components/ExperienceCard';
 import SocialLinks from './components/SocialLinks';
+import ProjectCard from './components/ProjectCard';
 
 const experiences = [
   {
@@ -30,7 +31,34 @@ const education = [
 ];
 
 const projects = [
+  {
+    company: 'GeomPT',
+    logo: 'hackmit.png',
+    description: 'Web-based physical therapy platform powered by GoogleAPI’s pose-detection kit, enabling real-time analysis of patients’ range of motion',
+    technologies: ['React', 'MediaPipe', 'WebSockets'],
+    link: 'https://ballot.hackmit.org/project/fnjby-pztke-ionsy-qebtg',
+    prize: true,
+    prizeText: '🏅 2nd Place at HackMIT', 
+    month: "SEP", 
+    day: 16, 
+    year: 2024,
+    colorTheme: 'blue'
+  }, 
+  {
+    company: "Autocal",
+    logo: 'mhacks.png',
+    description: 'Voice powered calendar optimization application that uses AI voice recognition and the Google Calendar API to enhance user scheduling efficiency',
+    technologies: ['React', 'Python'],
+    link: 'https://devpost.com/software/autocal-ai',
+    prize: true,
+    prizeText: '🏆 Best Use of Google Cloud at MHacks', 
+    month: "NOV", 
+    day: 19, 
+    year: 2023,
+    colorTheme: 'teal'
+  }
 ];
+
 
 function App() {
   const canvasRef = useRef(null);
@@ -40,7 +68,7 @@ function App() {
   const sections = {
     experience: experiences,
     education: education,
-    projects: projects
+    projects: projects,
   };
 
   useEffect(() => {
@@ -179,6 +207,20 @@ function App() {
     <div className="min-h-screen flex flex-col items-center relative overflow-hidden">
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full" style={{ zIndex: -1 }} />
       
+      <motion.div 
+        className="fixed bottom-8 z-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.8, 
+          delay: 0.5,
+          type: "spring",
+          stiffness: 100 
+        }}
+      >
+        <SocialLinks />
+      </motion.div>
+
       <main className="container mx-auto px-4 py-10 flex flex-col items-center w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -223,23 +265,39 @@ function App() {
           </div>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mb-8">
-          {sections[activeSection].map((item, index) => (
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {activeSection === 'about' ? (
             <motion.div
-              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-6 max-w-4xl"
             >
-              <ExperienceCard {...item} />
+              <h2 className="text-3xl font-bold mb-2">{aboutMe.title}</h2>
+              <p className="text-lg text-purple-200">{aboutMe.content}</p>
             </motion.div>
-          ))}
-        </div>
-
-        <div className="transform scale-110">
-          <SocialLinks />
-        </div>
+          ) : (
+            sections[activeSection].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+              >
+                {activeSection === 'projects' ? (
+                  <ProjectCard {...item} />
+                ) : (
+                  <ExperienceCard {...item} />
+                )}
+              </motion.div>
+            ))
+          )}
+        </motion.div>
       </main>
     </div>
   );
