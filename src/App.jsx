@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import ExperienceCard from './components/ExperienceCard';
-import SocialLinks from './components/SocialLinks';
-import ProjectCard from './components/ProjectCard';
+import AboutSection from './components/AboutSection';
+import ProjectsSection from './components/ProjectSection';
+import ExperienceSection from './components/ExperienceSection';
 
 const experiences = [
   {
@@ -22,13 +22,9 @@ const experiences = [
   }
 ];
 
-const education = [
-  {
-    company: "University of Michigan",
-    role: "BSE Computer Science",
-    logo: "/umich.png"
-  }
-];
+const aboutMe = {
+  title: "About Me"
+};
 
 const projects = [
   {
@@ -65,11 +61,6 @@ function App() {
   const [activeSection, setActiveSection] = useState('experience');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const sections = {
-    experience: experiences,
-    education: education,
-    projects: projects,
-  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -202,31 +193,28 @@ function App() {
       window.removeEventListener('resize', resizeCanvas);
     };
   }, [mousePosition]);
+  
 
   return (
     <div className="min-h-screen flex flex-col items-center relative overflow-hidden">
+      {/* Canvas background (unchanged) */}
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full" style={{ zIndex: -1 }} />
-      
+
+      {/* Social Links (unchanged) */}
       <motion.div 
         className="fixed bottom-8 z-20"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 0.8, 
-          delay: 0.5,
-          type: "spring",
-          stiffness: 100 
-        }}
+        transition={{ duration: 0.8, delay: 0.5, type: "spring", stiffness: 100 }}
       >
-        <SocialLinks />
       </motion.div>
 
       <main className="container mx-auto px-4 py-10 flex flex-col items-center w-full relative z-10">
         <motion.div
+          className="text-center mb-6 max-w-4xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-6 max-w-4xl"
         >
           <motion.h1 
             className="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 animate-gradient px-4 pb-2"
@@ -235,7 +223,6 @@ function App() {
           >
             Steven Zhang
           </motion.h1>
-          
           <motion.p 
             className="text-2xl mb-6 text-purple-200"
             whileHover={{ scale: 1.05 }}
@@ -243,11 +230,9 @@ function App() {
           >
             Engineer
           </motion.p>
-          
-
 
           <div className="flex justify-center gap-4">
-            {Object.keys(sections).map((section) => (
+            {['about','experience','projects'].map((section) => (
               <motion.button
                 key={section}
                 onClick={() => setActiveSection(section)}
@@ -266,36 +251,24 @@ function App() {
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {activeSection === 'about' ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center mb-6 max-w-4xl"
-            >
-              <h2 className="text-3xl font-bold mb-2">{aboutMe.title}</h2>
-              <p className="text-lg text-purple-200">{aboutMe.content}</p>
-            </motion.div>
-          ) : (
-            sections[activeSection].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                {activeSection === 'projects' ? (
-                  <ProjectCard {...item} />
-                ) : (
-                  <ExperienceCard {...item} />
-                )}
-              </motion.div>
-            ))
+          {activeSection === 'experience' && (
+            <ExperienceSection experiences={experiences} />
+          )}
+
+          {activeSection === 'about' && (
+            // About is just one block, so we can remove the grid classes if you like
+            <div className="col-span-full w-full">
+              <AboutSection aboutMe={aboutMe} />
+            </div>
+          )}
+
+          {activeSection === 'projects' && (
+            <ProjectsSection projects={projects} />
           )}
         </motion.div>
       </main>
