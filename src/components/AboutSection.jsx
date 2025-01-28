@@ -39,7 +39,7 @@ export default function AboutSection({ aboutMe }) {
           <span className='text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-yellow-500 animate-gradient'>
             University of Michigan
           </span>{' '}
-          with a minor in Mathematics. My academic interests focus on intelligent AI agents, distributed systems, and machine learning infrastructure.
+          with a minor in Mathematics. My academic interests focus on intelligent AI agents, distributed systems, and optimization theory.
         </motion.p>
 
         
