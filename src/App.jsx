@@ -6,11 +6,6 @@ import ExperienceSection from './components/ExperienceSection';
 
 const experiences = [
   {
-    company: "Amazon Web Services",
-    role: "Software Development Intern",
-    logo: "/aws-logo.png"
-  }, 
-  {
     company: "Strategic Reasoning Group",
     role: "Research Intern", 
     logo: "/srg.png"
@@ -34,7 +29,7 @@ const projects = [
     technologies: ['React', 'MediaPipe', 'WebSockets'],
     link: 'https://ballot.hackmit.org/project/fnjby-pztke-ionsy-qebtg',
     prize: true,
-    prizeText: '🏅 2nd Place at HackMIT', 
+    prizeText: 'HackMIT', 
     month: "SEP", 
     day: 16, 
     year: 2024,
@@ -47,7 +42,7 @@ const projects = [
     technologies: ['React', 'Python'],
     link: 'https://devpost.com/software/autocal-ai',
     prize: true,
-    prizeText: '🏆 Best Use of Google Cloud at MHacks', 
+    prizeText: 'MHacks', 
     month: "NOV", 
     day: 19, 
     year: 2023,
